@@ -18,4 +18,3 @@ C:\Users\hanif\source\repos\ExcelSplitter\ExcelSplitter\obj\Debug\ExcelSplitter.
 C:\Users\hanif\source\repos\ExcelSplitter\ExcelSplitter\obj\Debug\ExcelSplitter.csproj.CopyComplete
 C:\Users\hanif\source\repos\ExcelSplitter\ExcelSplitter\obj\Debug\ExcelSplitter.exe
 C:\Users\hanif\source\repos\ExcelSplitter\ExcelSplitter\obj\Debug\ExcelSplitter.pdb
-C:\Users\hanif\source\repos\ExcelSplitter\ExcelSplitter\obj\Debug\ExcelSplitter.csprojAssemblyReference.cache
