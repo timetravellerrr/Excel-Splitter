@@ -268,7 +268,7 @@ namespace ExcelSplitter
                         else
                             no_of_row += get_last_counter_mod;
                         counter = 0;
-                        lbl_log.Text = "Total no. of tables: " + ds.Tables.Count;
+                        lbl_log.Text = "Total no. of tables processed: " + ds.Tables.Count + "/" + no_of_files;
                     }
 
                     //Export to File
@@ -278,10 +278,11 @@ namespace ExcelSplitter
 
                     //Closing workbook
                     objWB.Close();
+                    Marshal.ReleaseComObject(objWB);
 
                     //Closing excel application
                     objXL.Quit();
-
+                    Marshal.ReleaseComObject(objXL);
 
                     err_messages(lbl_error, Color.Green, StaticMessages.ERR_SUCC);
                 }
@@ -291,9 +292,11 @@ namespace ExcelSplitter
 
                     //Closing work book
                     objWB.Close();
+                    Marshal.ReleaseComObject(objWB);
 
                     //Closing excel application
                     objXL.Quit();
+                    Marshal.ReleaseComObject(objXL);
 
                     err_messages(lbl_error, Color.Red, ex.Message);
 
@@ -303,43 +306,51 @@ namespace ExcelSplitter
             }
         }
 
+        private void update_grid_view(int q, DataTable dt)
+        {
+            DataGridView dtv = new DataGridView();
+            dtv.Name = "" + q;
+            dtv.AutoGenerateColumns = true;
+            dtv.DataSource = dt.DefaultView;
+            dtv.Height = 131;
+            dtv.Width = 755;
+
+            TabPage tb = new TabPage();
+            tb.Name = dt.TableName;
+            tb.Text = dt.TableName + " (" + dt.Rows.Count + ")";
+            tb.Controls.Add(dtv);
+            tab_control.TabPages.Add(tb);
+
+            tab_control.Refresh();
+        }
+
         private void export_to_closedxml(DataSet ds)
         {
-            for (int q = 0; q < ds.Tables.Count; q++)
-            {
-                var wb = new XLWorkbook();
-                DataTable dt = ds.Tables[q];
+            if (ds.Tables.Count > 0)
+            { 
+                for (int q = 0; q < ds.Tables.Count; q++)
+                {
+                    var wb = new XLWorkbook();
+                    DataTable dt = ds.Tables[q];
 
-                // Add all DataTables in the DataSet as a worksheets
-                //var ws = wb.Worksheets.Add(dt);
-                var ws = wb.Worksheets.Add(dt.TableName);
-                ws.FirstCell().InsertTable(dt).Theme = XLTableTheme.None;
-                ws.Columns().Width = 11;
-                //ws.Row(1).Style = XLWorkbook.DefaultStyle;
-                ws.Row(1).Style.Font.Bold = true;
-                ws.Column(1).Width = 50;
+                    // Add all DataTables in the DataSet as a worksheets
+                    //var ws = wb.Worksheets.Add(dt);
+                    var ws = wb.Worksheets.Add(dt.TableName);
+                    ws.FirstCell().InsertTable(dt).Theme = XLTableTheme.None;
+                    ws.Columns().Width = 11;
+                    //ws.Row(1).Style = XLWorkbook.DefaultStyle;
+                    ws.Row(1).Style.Font.Bold = true;
+                    ws.Column(1).Width = 50;
 
-                string filename = er.filename.Substring(er.filename.LastIndexOf("\\") + 1);
-                filename = filename.Substring(0, filename.LastIndexOf("."));
+                    string filename = er.filename.Substring(er.filename.LastIndexOf("\\") + 1);
+                    filename = filename.Substring(0, filename.LastIndexOf("."));
 
-                wb.SaveAs(Path.Combine(er.save_path, filename + " " + (q + 1) + ".xlsx"));
+                    wb.SaveAs(Path.Combine(er.save_path, filename + " " + (q + 1) + ".xlsx"));
 
-                DataGridView dtv = new DataGridView();
-                dtv.Name = "" + q;
-                dtv.AutoGenerateColumns = true;
-                dtv.DataSource = ds.Tables[q].DefaultView;
-                dtv.Height = 131;
-                dtv.Width = 755;
+                    update_grid_view(q, dt);
 
-                TabPage tb = new TabPage();
-                tb.Name = dt.TableName;
-                tb.Text = dt.TableName + " (" + dt.Rows.Count + ")";
-                tb.Controls.Add(dtv);
-                tab_control.TabPages.Add(tb);
-
-                tab_control.Refresh();
-
-                lbl_log.Text = "Total no. of tables: " + ds.Tables.Count + ", No. of files: " + (q + 1) + "/" + ds.Tables.Count + " file(s) created.";
+                    lbl_log.Text = "Total no. of tables: " + ds.Tables.Count + ", No. of files: " + (q + 1) + "/" + ds.Tables.Count + " file(s) created.";
+                }
             }
         }
 
@@ -380,24 +391,11 @@ namespace ExcelSplitter
                         content.Append(strRow + "\r\n");
                     }
 
-                    DataGridView dtv = new DataGridView();
-                    dtv.Name = "" + q;
-                    dtv.AutoGenerateColumns = true;
-                    dtv.DataSource = ds.Tables[q].DefaultView;
-                    dtv.Height = 131;
-                    dtv.Width = 755;
+                    File.WriteAllText(Path.Combine(er.save_path, dt.TableName + ".csv"), content.ToString());
 
-                    TabPage tb = new TabPage();
-                    tb.Name = dt.TableName;
-                    tb.Text = dt.TableName + " (" + dt.Rows.Count + ")";
-                    tb.Controls.Add(dtv);
-                    tab_control.TabPages.Add(tb);
-
-                    tab_control.Refresh();
+                    update_grid_view(q, dt);
 
                     lbl_log.Text = "Total no. of tables: " + ds.Tables.Count + ", No. of files: " + (q + 1) + "/" + ds.Tables.Count + " file(s) created.";
-
-                    File.WriteAllText(Path.Combine(er.save_path, dt.TableName + ".csv"), content.ToString());
                 }
             }
         }

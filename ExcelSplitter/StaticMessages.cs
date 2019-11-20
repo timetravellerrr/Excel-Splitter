@@ -13,8 +13,8 @@ namespace ExcelSplitter
         public const string ERR_SAVEPATH_EMPTY = "Select a directory.";
         public const string ERR_SAVEPATH_INVALID = "Not a valid directory.";
         public const string ERR_N_INVALID = "Invalid number format.";
-        public const string ERR_SUCC = "Success";
-        public const string ERR_FAIL = "Failed";
+        public const string ERR_SUCC = "Files successfully created";
+        public const string ERR_FAIL = "Opps, something went wrong";
         public const string ERR_PROC = "Processing...";
     }
 }
