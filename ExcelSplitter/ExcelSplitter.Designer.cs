@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pnl_top_panel = new System.Windows.Forms.Panel();
+            this.btn_openfolder = new System.Windows.Forms.Button();
+            this.lbl_filename = new System.Windows.Forms.Label();
             this.lbl_txtsavepath = new System.Windows.Forms.Label();
             this.lbl_txtfilename = new System.Windows.Forms.Label();
             this.lbl_txtn = new System.Windows.Forms.Label();
             this.lbl_savepath = new System.Windows.Forms.Label();
             this.lbl_n = new System.Windows.Forms.Label();
-            this.lbl_filename = new System.Windows.Forms.Label();
             this.txt_n = new System.Windows.Forms.TextBox();
             this.btn_split = new System.Windows.Forms.Button();
             this.btn_savepath = new System.Windows.Forms.Button();
@@ -45,13 +47,17 @@
             this.lbl_log = new System.Windows.Forms.Label();
             this.lbl_status = new System.Windows.Forms.Label();
             this.tab_control = new System.Windows.Forms.TabControl();
-            this.btn_openfolder = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.rb_xlsx = new System.Windows.Forms.RadioButton();
+            this.rb_csv = new System.Windows.Forms.RadioButton();
             this.pnl_top_panel.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_top_panel
             // 
+            this.pnl_top_panel.Controls.Add(this.rb_csv);
+            this.pnl_top_panel.Controls.Add(this.rb_xlsx);
             this.pnl_top_panel.Controls.Add(this.btn_openfolder);
             this.pnl_top_panel.Controls.Add(this.lbl_filename);
             this.pnl_top_panel.Controls.Add(this.lbl_txtsavepath);
@@ -67,6 +73,24 @@
             this.pnl_top_panel.Name = "pnl_top_panel";
             this.pnl_top_panel.Size = new System.Drawing.Size(755, 133);
             this.pnl_top_panel.TabIndex = 0;
+            // 
+            // btn_openfolder
+            // 
+            this.btn_openfolder.Location = new System.Drawing.Point(257, 70);
+            this.btn_openfolder.Name = "btn_openfolder";
+            this.btn_openfolder.Size = new System.Drawing.Size(32, 25);
+            this.btn_openfolder.TabIndex = 4;
+            this.btn_openfolder.Text = "...";
+            this.btn_openfolder.UseVisualStyleBackColor = true;
+            // 
+            // lbl_filename
+            // 
+            this.lbl_filename.AutoSize = true;
+            this.lbl_filename.Location = new System.Drawing.Point(204, 44);
+            this.lbl_filename.Name = "lbl_filename";
+            this.lbl_filename.Size = new System.Drawing.Size(46, 17);
+            this.lbl_filename.TabIndex = 0;
+            this.lbl_filename.Text = "label1";
             // 
             // lbl_txtsavepath
             // 
@@ -112,15 +136,6 @@
             this.lbl_n.Size = new System.Drawing.Size(46, 17);
             this.lbl_n.TabIndex = 0;
             this.lbl_n.Text = "label1";
-            // 
-            // lbl_filename
-            // 
-            this.lbl_filename.AutoSize = true;
-            this.lbl_filename.Location = new System.Drawing.Point(204, 44);
-            this.lbl_filename.Name = "lbl_filename";
-            this.lbl_filename.Size = new System.Drawing.Size(46, 17);
-            this.lbl_filename.TabIndex = 0;
-            this.lbl_filename.Text = "label1";
             // 
             // txt_n
             // 
@@ -208,14 +223,27 @@
             this.tab_control.Size = new System.Drawing.Size(755, 233);
             this.tab_control.TabIndex = 2;
             // 
-            // btn_fileopen
+            // rb_xlsx
             // 
-            this.btn_openfolder.Location = new System.Drawing.Point(257, 70);
-            this.btn_openfolder.Name = "btn_fileopen";
-            this.btn_openfolder.Size = new System.Drawing.Size(30, 25);
-            this.btn_openfolder.TabIndex = 4;
-            this.btn_openfolder.Text = "...";
-            this.btn_openfolder.UseVisualStyleBackColor = true;
+            this.rb_xlsx.AutoSize = true;
+            this.rb_xlsx.Location = new System.Drawing.Point(689, 13);
+            this.rb_xlsx.Name = "rb_xlsx";
+            this.rb_xlsx.Size = new System.Drawing.Size(51, 21);
+            this.rb_xlsx.TabIndex = 5;
+            this.rb_xlsx.TabStop = true;
+            this.rb_xlsx.Text = "xlsx";
+            this.rb_xlsx.UseVisualStyleBackColor = true;
+            // 
+            // rb_csv
+            // 
+            this.rb_csv.AutoSize = true;
+            this.rb_csv.Location = new System.Drawing.Point(689, 40);
+            this.rb_csv.Name = "rb_csv";
+            this.rb_csv.Size = new System.Drawing.Size(50, 21);
+            this.rb_csv.TabIndex = 5;
+            this.rb_csv.TabStop = true;
+            this.rb_csv.Text = "csv";
+            this.rb_csv.UseVisualStyleBackColor = true;
             // 
             // ExcelSplitter
             // 
@@ -256,6 +284,9 @@
         private System.Windows.Forms.Label lbl_savepath;
         private System.Windows.Forms.Label lbl_n;
         private System.Windows.Forms.Button btn_openfolder;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.RadioButton rb_csv;
+        private System.Windows.Forms.RadioButton rb_xlsx;
     }
 }
 

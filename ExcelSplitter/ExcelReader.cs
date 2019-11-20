@@ -10,6 +10,8 @@ namespace ExcelSplitter
     {
         public int n { get; set; }
         public string save_path { get; set; }
+        //public string full_path { get; set; }
+        public string directory_name { get; set; }
         public string filename { get; set; }
     }
 }

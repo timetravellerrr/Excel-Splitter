@@ -20,6 +20,7 @@ namespace ExcelSplitter
             InitializeComponent();
             initialize_objects();
             load_default_values();
+            set_tooltip();
         }
 
         private void initialize_objects()
@@ -37,10 +38,20 @@ namespace ExcelSplitter
             lbl_error.Text = string.Empty;
             lbl_savepath.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
             txt_n.Text = 150.ToString();
+            rb_xlsx.Checked = true;
 
             int filewidth = lbl_savepath.Width;
             btn_openfolder.Location = new System.Drawing.Point((204 + lbl_savepath.Text.Length + filewidth) - 65, 58);
             btn_openfolder.Click += new System.EventHandler(this.btn_openfolder_Click);
+        }
+
+        private void set_tooltip()
+        {
+            toolTip1.SetToolTip(btn_openfolder, "Open saved directory");
+            toolTip1.SetToolTip(btn_file, "Select excel file");
+            toolTip1.SetToolTip(btn_savepath, "Select saved directory");
+            toolTip1.SetToolTip(btn_split, "Run");
+            toolTip1.SetToolTip(txt_n, "Enter number of rows to split");
         }
 
         private void btn_file_Click(object sender, EventArgs e)
@@ -53,6 +64,9 @@ namespace ExcelSplitter
             fdlg.FilterIndex = 2;
             fdlg.RestoreDirectory = true;
 
+            if (er.directory_name != null && er.directory_name.Length > 0)
+                fdlg.InitialDirectory = er.directory_name;
+
             if (fdlg.ShowDialog() == DialogResult.OK)
             {
                 fname = fdlg.FileName;
@@ -60,8 +74,9 @@ namespace ExcelSplitter
                 string file_ext = Path.GetExtension(fname); //get the file extension  
                 if (file_ext.CompareTo(".xls") == 0 || file_ext.CompareTo(".xlsx") == 0)
                 {
-                    er.filename = fname;
-                    err_messages(lbl_filename, Color.Black, fname.Substring(fname.LastIndexOf("\\") + 1));
+                    er.filename = fname.Substring(fname.LastIndexOf("\\") + 1);
+                    er.directory_name = Path.GetDirectoryName(fname);
+                    err_messages(lbl_filename, Color.Black, er.filename);
                 }
                 else
                 {
@@ -135,6 +150,7 @@ namespace ExcelSplitter
                 {
                     er.n = n;
                     ret_val = true;
+                    lbl_n.Text = string.Empty;
                 }
                 else
                 {
@@ -144,6 +160,7 @@ namespace ExcelSplitter
             }
             else
             {
+                txt_n.Text = 150.ToString();
                 er.n = 150;
                 ret_val = true;
             }
@@ -193,9 +210,11 @@ namespace ExcelSplitter
         }
         private void read_excel(ExcelReader er)
         {
-            string fname = er.filename;
+            string fname = er.directory_name + @"\" + er.filename;
             string save_path = er.save_path;
             int n = er.n;
+
+            err_messages(lbl_error, ColorTranslator.FromHtml("#007bff"), StaticMessages.ERR_PROC);
 
             if (fname.Length > 0)
             {
@@ -232,8 +251,6 @@ namespace ExcelSplitter
                     {
                         dt = new DataTable();
                         dt.TableName = "Book " + (q + 1);
-
-                        err_messages(lbl_error, ColorTranslator.FromHtml("#007bff"), StaticMessages.ERR_PROC);
 
                         //If 1st Row Contains unique Headers for datatable include this part else remove it
                         for (int c = 1; c <= cols; c++)
@@ -272,8 +289,10 @@ namespace ExcelSplitter
                     }
 
                     //Export to File
-                    export_to_closedxml(ds);
-                    //export_to_csv(ds);
+                    if(rb_xlsx.Checked)
+                        export_to_closedxml(ds);
+                    else if(rb_csv.Checked)
+                        export_to_csv(ds);
                     //export_dataset_to_excel(ds, objXL);
 
                     //Closing workbook
@@ -342,10 +361,9 @@ namespace ExcelSplitter
                     ws.Row(1).Style.Font.Bold = true;
                     ws.Column(1).Width = 50;
 
-                    string filename = er.filename.Substring(er.filename.LastIndexOf("\\") + 1);
-                    filename = filename.Substring(0, filename.LastIndexOf("."));
+                    string new_filename = er.filename.Substring(0, er.filename.LastIndexOf(".")) + " " + (q + 1);
 
-                    wb.SaveAs(Path.Combine(er.save_path, filename + " " + (q + 1) + ".xlsx"));
+                    wb.SaveAs(Path.Combine(er.save_path, new_filename + ".xlsx"));
 
                     update_grid_view(q, dt);
 
@@ -391,7 +409,9 @@ namespace ExcelSplitter
                         content.Append(strRow + "\r\n");
                     }
 
-                    File.WriteAllText(Path.Combine(er.save_path, dt.TableName + ".csv"), content.ToString());
+                    string new_filename = er.filename.Substring(0, er.filename.LastIndexOf(".")) + " " + (q + 1);
+
+                    File.WriteAllText(Path.Combine(er.save_path, new_filename + ".csv"), content.ToString());
 
                     update_grid_view(q, dt);
 
