@@ -33,7 +33,7 @@ namespace ExcelSplitter
         {
             lbl_filename.Text = string.Empty;
             lbl_status.Text = "Row(s): 0/0";
-            lbl_log.Text = "Total no. of files: ";
+            lbl_log.Text = "Total no. of tables processed: 0/0";
             lbl_n.Text = string.Empty;
             lbl_error.Text = string.Empty;
             lbl_savepath.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
@@ -214,8 +214,6 @@ namespace ExcelSplitter
             string save_path = er.save_path;
             int n = er.n;
 
-            err_messages(lbl_error, ColorTranslator.FromHtml("#007bff"), StaticMessages.ERR_PROC);
-
             if (fname.Length > 0)
             {
                 tab_control.TabPages.Clear();
@@ -242,6 +240,9 @@ namespace ExcelSplitter
 
                     double no_of_files = Math.Ceiling(rows / (double)n);
                     int get_last_counter_mod = (rows - 1) % n;
+
+                    lbl_log.Text = "Total no. of tables processed: 0/" + no_of_files;
+                    err_messages(lbl_error, ColorTranslator.FromHtml("#007bff"), StaticMessages.ERR_PROC);
 
                     DataTable dt = new DataTable();
                     int no_of_row = 1; bool header = false;
@@ -367,7 +368,7 @@ namespace ExcelSplitter
 
                     update_grid_view(q, dt);
 
-                    lbl_log.Text = "Total no. of tables: " + ds.Tables.Count + ", No. of files: " + (q + 1) + "/" + ds.Tables.Count + " file(s) created.";
+                    lbl_log.Text = "Total no. of tables processed: " + ds.Tables.Count + ", No. of files: " + (q + 1) + "/" + ds.Tables.Count + " file(s) created.";
                 }
             }
         }
@@ -415,7 +416,7 @@ namespace ExcelSplitter
 
                     update_grid_view(q, dt);
 
-                    lbl_log.Text = "Total no. of tables: " + ds.Tables.Count + ", No. of files: " + (q + 1) + "/" + ds.Tables.Count + " file(s) created.";
+                    lbl_log.Text = "Total no. of tables processed: " + ds.Tables.Count + ", No. of files: " + (q + 1) + "/" + ds.Tables.Count + " file(s) created.";
                 }
             }
         }

@@ -249,13 +249,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 480);
+            this.ClientSize = new System.Drawing.Size(800, 490);
             this.Controls.Add(this.tab_control);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.pnl_top_panel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ExcelSplitter";
-            this.Text = "Form 1";
+            this.Text = "Excel Splitter";
             this.pnl_top_panel.ResumeLayout(false);
             this.pnl_top_panel.PerformLayout();
             this.panel2.ResumeLayout(false);
