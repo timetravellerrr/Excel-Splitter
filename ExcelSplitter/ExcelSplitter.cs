@@ -39,6 +39,9 @@ namespace ExcelSplitter
             lbl_savepath.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop));
             txt_n.Text = 150.ToString();
             rb_xlsx.Checked = true;
+            cb_header.Checked = true;
+            rb_h_yes.Checked = true;
+            pnl_headers.Visible = false;
 
             int filewidth = lbl_savepath.Width;
             btn_openfolder.Location = new System.Drawing.Point((204 + lbl_savepath.Text.Length + filewidth) - 65, 58);
@@ -208,6 +211,7 @@ namespace ExcelSplitter
 
             return ret_val;
         }
+
         private void read_excel(ExcelReader er)
         {
             string fname = er.directory_name + @"\" + er.filename;
@@ -245,24 +249,37 @@ namespace ExcelSplitter
                     err_messages(lbl_error, ColorTranslator.FromHtml("#007bff"), StaticMessages.ERR_PROC);
 
                     DataTable dt = new DataTable();
-                    int no_of_row = 1; bool header = false;
-                    int counter = 0;
+                    int no_of_row = 1, counter = 0;
+                    bool header = false, skip = false;
+
+                    if (cb_header.Checked)
+                        if (rb_h_yes.Checked)
+                            header = true;
+                        else if (rb_h_no.Checked)
+                            skip = true;
 
                     for (int q = 0; q < no_of_files; q++)
                     {
                         dt = new DataTable();
                         dt.TableName = "Book " + (q + 1);
 
-                        //If 1st Row Contains unique Headers for datatable include this part else remove it
-                        for (int c = 1; c <= cols; c++)
+                        if (header || skip)
                         {
-                            string colname = objSHT.Cells[1, c].Text;
-                            dt.Columns.Add(colname);
-                            header = true;
+                            if(!skip)
+                            for (int c = 1; c <= cols; c++)
+                            {
+                                string colname = objSHT.Cells[1, c].Text;
+                                dt.Columns.Add(colname);
+                            }
+                            else if(skip)
+                                for (int c = 1; c <= cols; c++)
+                                {
+                                    string colname = objSHT.Cells[1, c].Text;
+                                    dt.Columns.Add("");
+                                }
+                            if (q == 0)
+                                no_of_row++;
                         }
-
-                        if (header && q == 0)
-                            no_of_row++;
 
                         for (int r = no_of_row; r <= rows; r++)
                         {

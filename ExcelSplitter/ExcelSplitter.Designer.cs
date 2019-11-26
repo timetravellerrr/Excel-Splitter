@@ -50,14 +50,20 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.rb_xlsx = new System.Windows.Forms.RadioButton();
             this.rb_csv = new System.Windows.Forms.RadioButton();
+            this.pnl_fileformat = new System.Windows.Forms.Panel();
+            this.cb_header = new System.Windows.Forms.CheckBox();
+            this.rb_h_yes = new System.Windows.Forms.RadioButton();
+            this.rb_h_no = new System.Windows.Forms.RadioButton();
+            this.pnl_headers = new System.Windows.Forms.Panel();
             this.pnl_top_panel.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.pnl_fileformat.SuspendLayout();
+            this.pnl_headers.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_top_panel
             // 
-            this.pnl_top_panel.Controls.Add(this.rb_csv);
-            this.pnl_top_panel.Controls.Add(this.rb_xlsx);
+            this.pnl_top_panel.Controls.Add(this.pnl_headers);
             this.pnl_top_panel.Controls.Add(this.btn_openfolder);
             this.pnl_top_panel.Controls.Add(this.lbl_filename);
             this.pnl_top_panel.Controls.Add(this.lbl_txtsavepath);
@@ -226,7 +232,8 @@
             // rb_xlsx
             // 
             this.rb_xlsx.AutoSize = true;
-            this.rb_xlsx.Location = new System.Drawing.Point(689, 13);
+            this.rb_xlsx.Checked = true;
+            this.rb_xlsx.Location = new System.Drawing.Point(5, 13);
             this.rb_xlsx.Name = "rb_xlsx";
             this.rb_xlsx.Size = new System.Drawing.Size(51, 21);
             this.rb_xlsx.TabIndex = 5;
@@ -237,7 +244,7 @@
             // rb_csv
             // 
             this.rb_csv.AutoSize = true;
-            this.rb_csv.Location = new System.Drawing.Point(689, 40);
+            this.rb_csv.Location = new System.Drawing.Point(5, 40);
             this.rb_csv.Name = "rb_csv";
             this.rb_csv.Size = new System.Drawing.Size(50, 21);
             this.rb_csv.TabIndex = 5;
@@ -245,11 +252,65 @@
             this.rb_csv.Text = "csv";
             this.rb_csv.UseVisualStyleBackColor = true;
             // 
+            // pnl_fileformat
+            // 
+            this.pnl_fileformat.Controls.Add(this.rb_xlsx);
+            this.pnl_fileformat.Controls.Add(this.rb_csv);
+            this.pnl_fileformat.Location = new System.Drawing.Point(703, 22);
+            this.pnl_fileformat.Name = "pnl_fileformat";
+            this.pnl_fileformat.Size = new System.Drawing.Size(73, 133);
+            this.pnl_fileformat.TabIndex = 6;
+            // 
+            // cb_header
+            // 
+            this.cb_header.AutoSize = true;
+            this.cb_header.Checked = true;
+            this.cb_header.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_header.Location = new System.Drawing.Point(3, 13);
+            this.cb_header.Name = "cb_header";
+            this.cb_header.Size = new System.Drawing.Size(77, 21);
+            this.cb_header.TabIndex = 5;
+            this.cb_header.Text = "Header";
+            this.cb_header.UseVisualStyleBackColor = true;
+            // 
+            // rb_h_yes
+            // 
+            this.rb_h_yes.AutoSize = true;
+            this.rb_h_yes.Checked = true;
+            this.rb_h_yes.Location = new System.Drawing.Point(24, 39);
+            this.rb_h_yes.Name = "rb_h_yes";
+            this.rb_h_yes.Size = new System.Drawing.Size(53, 21);
+            this.rb_h_yes.TabIndex = 6;
+            this.rb_h_yes.TabStop = true;
+            this.rb_h_yes.Text = "Yes";
+            this.rb_h_yes.UseVisualStyleBackColor = true;
+            // 
+            // rb_h_no
+            // 
+            this.rb_h_no.AutoSize = true;
+            this.rb_h_no.Location = new System.Drawing.Point(24, 66);
+            this.rb_h_no.Name = "rb_h_no";
+            this.rb_h_no.Size = new System.Drawing.Size(47, 21);
+            this.rb_h_no.TabIndex = 6;
+            this.rb_h_no.Text = "No";
+            this.rb_h_no.UseVisualStyleBackColor = true;
+            // 
+            // pnl_headers
+            // 
+            this.pnl_headers.Controls.Add(this.rb_h_no);
+            this.pnl_headers.Controls.Add(this.rb_h_yes);
+            this.pnl_headers.Controls.Add(this.cb_header);
+            this.pnl_headers.Location = new System.Drawing.Point(598, 0);
+            this.pnl_headers.Name = "pnl_headers";
+            this.pnl_headers.Size = new System.Drawing.Size(83, 133);
+            this.pnl_headers.TabIndex = 6;
+            // 
             // ExcelSplitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 490);
+            this.Controls.Add(this.pnl_fileformat);
             this.Controls.Add(this.tab_control);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.pnl_top_panel);
@@ -260,6 +321,10 @@
             this.pnl_top_panel.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.pnl_fileformat.ResumeLayout(false);
+            this.pnl_fileformat.PerformLayout();
+            this.pnl_headers.ResumeLayout(false);
+            this.pnl_headers.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -287,6 +352,11 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.RadioButton rb_csv;
         private System.Windows.Forms.RadioButton rb_xlsx;
+        private System.Windows.Forms.Panel pnl_fileformat;
+        private System.Windows.Forms.Panel pnl_headers;
+        private System.Windows.Forms.RadioButton rb_h_no;
+        private System.Windows.Forms.RadioButton rb_h_yes;
+        private System.Windows.Forms.CheckBox cb_header;
     }
 }
 
